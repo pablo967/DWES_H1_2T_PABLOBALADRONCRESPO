@@ -76,6 +76,13 @@ public class Controlador {
         return mv;
     }
 
+    @RequestMapping("/perfil")
+    public ModelAndView peticionPerfil() {
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("perfil");
+        return mv;
+    }
+
     @PostMapping("/nuevoRegistro")
     public ModelAndView registrarEntrega(
             @RequestParam String domicilio,
