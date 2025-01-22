@@ -2,12 +2,13 @@ package org.example.hito_2_fasttrackcourier.controlador;
 
 import org.example.hito_2_fasttrackcourier.modelo.Entrega;
 import org.example.hito_2_fasttrackcourier.modelo.Usuario;
-import org.example.hito_2_fasttrackcourier.repositories.EntregaRepositories;
-import org.example.hito_2_fasttrackcourier.repositories.UserRepositories;
+import org.example.hito_2_fasttrackcourier.repositories.EntregaRepository;
+import org.example.hito_2_fasttrackcourier.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,10 +22,10 @@ import java.util.Optional;
 @Controller
 public class Controlador {
     @Autowired
-    UserRepositories userRepositories;
+    UsuarioRepository usuarioRepository;
 
     @Autowired
-    EntregaRepositories entregaRepositories;
+    EntregaRepository entregaRepository;
 
     @RequestMapping("/")
     public ModelAndView peticion1(Authentication aut) {
@@ -32,7 +33,7 @@ public class Controlador {
         if (aut == null) {
             mv.setViewName("redirect:/login");
         } else {
-            Optional<Usuario> userOpt = userRepositories.findById(aut.getName());
+            Optional<Usuario> userOpt = usuarioRepository.findById(aut.getName());
             if (userOpt.isPresent()) {
                 Usuario user = userOpt.get();
                 String usuario = user.getDni() + " - " + user.getNombre() + " Rol: " + user.getRol();
@@ -52,12 +53,17 @@ public class Controlador {
         return mv;
     }
 
+    @GetMapping("/admin")
+    public ModelAndView mostrarAdmin() {
+        return new ModelAndView("admin");
+    }
+
     @RequestMapping("/informe")
     public ModelAndView peticionInforme() {
         ModelAndView mv = new ModelAndView();
 
-        int totalPedidos = (int) entregaRepositories.count();
-        List<Entrega> entregas = entregaRepositories.findAll();
+        int totalPedidos = (int) entregaRepository.count();
+        List<Entrega> entregas = entregaRepository.findAll();
 
         mv.addObject("totalPedidos", totalPedidos);
         mv.addObject("entregas", entregas);
@@ -70,6 +76,19 @@ public class Controlador {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("login");
         //mv.setViewName("admin_informe");
+
+        return mv;
+    }
+
+    @GetMapping("/registro")
+    public ModelAndView mostrarFormularioRegistro(Authentication aut) {
+        ModelAndView mv = new ModelAndView("admin_registro");
+
+        String dniAdministrador = aut.getName();
+        mv.addObject("dniAdministrador", dniAdministrador);
+
+        List<Usuario> conductores = usuarioRepository.findByRol("conductor");
+        mv.addObject("conductores", conductores);
 
         return mv;
     }
@@ -107,7 +126,7 @@ public class Controlador {
                 fechaHoraEntrega
         );
 
-        entregaRepositories.save(nuevaEntrega);
+        entregaRepository.save(nuevaEntrega);
         return new ModelAndView("perfil");
     }
 }
