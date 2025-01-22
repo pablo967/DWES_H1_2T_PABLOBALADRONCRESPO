@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Control - Conductor</title>
+  <link rel="stylesheet" th:href="@{/css/conductor.css}">
+</head>
+<body>
+<div class="welcome-container">
+  <div class="welcome-content">
+    <h1>Bienvenido, Conductor</h1>
+    <p>En este panel puedes gestionar los paquetes asignados a ti, actualizar tu estado y revisar tu historial de entregas.</p>
+    <div class="buttons">
+      <a href="#" class="btn">Paquetes Asignados</a> <!-- Paquetes Asignados -->
+      <a href="#" class="btn">Actualizar Estado</a> <!-- Actualizar Estado -->
+      <a href="#" class="btn">Historial de Entregas</a> <!-- Historial de Entregas -->
+      <a th:href="@{/perfil}" class="btn">Perfil de Usuario</a> <!-- Perfil de Usuario -->
+    </div>
+  </div>
+</div>
+</body>
+</html>

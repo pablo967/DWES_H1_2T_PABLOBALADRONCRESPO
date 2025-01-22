@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Entrega</title>
+  <link rel="stylesheet" th:href="@{/css/admin_registro.css}">
+</head>
+<body>
+<div class="form-container">
+  <div class="form-content">
+    <h1>Registrar Entrega</h1>
+    <p>Por favor, completa los campos a continuación para registrar una nueva entrega.</p>
+    <form action="/nuevoRegistro" method="post">
+      <!-- Dirección de Entrega -->
+      <div class="form-group">
+        <label for="delivery-address">Dirección de Entrega</label>
+        <input type="text" id="delivery-address" name="domicilio" required placeholder="Introduce la dirección completa de entrega" value="Calle Ejemplo 456">
+      </div>
+
+      <!-- DNI del Cliente -->
+      <div class="form-group">
+        <label for="dniCliente">DNI del Cliente</label>
+        <input type="text" id="dniCliente" name="dniCliente" required placeholder="Introduce el DNI del cliente" value="99887766A">
+      </div>
+
+      <!-- Nombre del Cliente -->
+      <div class="form-group">
+        <label for="nombreCliente">Nombre del Cliente</label>
+        <input type="text" id="nombreCliente" name="nombreCliente" required placeholder="Introduce el nombre del cliente" value="Ana Pérez">
+      </div>
+
+      <!-- Estado de la Entrega -->
+      <div class="form-group">
+        <label for="status">Estado de la Entrega</label>
+        <select id="status" name="estado" required>
+          <option value="recibido">Recibido</option>
+          <option value="preparado">Preparado</option>
+          <option value="en_camino">En camino</option>
+          <option value="entregado">Entregado</option>
+        </select>
+      </div>
+
+      <!-- DNI del Administrador -->
+      <div class="form-group">
+        <label for="dniAdministrador">DNI del Administrador</label>
+        <input type="text" id="dniAdministrador" name="dniAdministrador" required placeholder="Introduce el DNI del administrador" value="1"> <!-- DNI del Administrador -->
+      </div>
+
+      <!-- Conductor Asignado -->
+      <div class="form-group">
+        <label for="dniConductor">DNI del Conductor</label>
+        <input type="text" id="dniConductor" name="dniConductor" required placeholder="Introduce el DNI del conductor asignado" value="2"> <!-- DNI del Conductor -->
+      </div>
+
+      <!-- Peso -->
+      <div class="form-group">
+        <label for="peso">Peso (kg)</label>
+        <input type="number" id="peso" name="peso" step="0.01" required placeholder="Introduce el peso del paquete" value="3.5">
+      </div>
+
+      <!-- Dimensiones del Paquete -->
+      <div class="form-group">
+        <label for="dimensiones">Dimensiones (cm)</label>
+        <input type="text" id="dimensiones" name="dimensiones" required placeholder="Introduce las dimensiones del paquete (Ej: 30x40x50)" value="30x40x50">
+      </div>
+
+      <!-- Fecha y Hora de Registro -->
+      <div class="form-group">
+        <label for="fechaHoraRegistro">Fecha y Hora de Registro</label>
+        <input type="datetime-local" id="fechaHoraRegistro" name="fechaHoraRegistro" required placeholder="Fecha y hora de registro" value="2025-01-20T08:00">
+      </div>
+
+      <!-- Fecha y Hora de Salida -->
+      <div class="form-group">
+        <label for="fechaHoraSalida">Fecha y Hora de Salida</label>
+        <input type="datetime-local" id="fechaHoraSalida" name="fechaHoraSalida" required placeholder="Fecha y hora de salida" value="2025-01-20T10:00">
+      </div>
+
+      <!-- Fecha y Hora de Entrega Prevista -->
+      <div class="form-group">
+        <label for="fechaEntregaPrevista">Fecha de Entrega Prevista</label>
+        <input type="date" id="fechaEntregaPrevista" name="fechaEntregaPrevista" required placeholder="Fecha de entrega prevista" value="2025-01-22">
+      </div>
+
+      <!-- Fecha y Hora de Entrega -->
+      <div class="form-group">
+        <label for="fechaHoraEntrega">Fecha y Hora de Entrega</label>
+        <input type="datetime-local" id="fechaHoraEntrega" name="fechaHoraEntrega" required placeholder="Fecha y hora de entrega" value="2025-01-22T15:00">
+      </div>
+
+      <!-- Botón de Registro -->
+      <button type="submit" class="btn">Registrar Entrega</button>
+    </form>
+
+    <!-- Botón para Ver Historial de Entregas -->
+    <div class="buttons">
+      <a th:href="@{/admin}" class="btn">Regresar</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>

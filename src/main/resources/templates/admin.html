@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control - Administrador</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+<div class="welcome-container">
+    <div class="welcome-content">
+        <h1>Bienvenido, Administrador</h1>
+        <p>Desde aquí puedes gestionar todos los aspectos del sistema de paquetería, incluyendo usuarios, paquetes, y más.</p>
+        <div class="buttons">
+            <a th:href="@{/registro}" class="btn">Registrar paquete</a> <!-- Gestión de Paquetes -->
+            <a th:href="@{/informe}" class="btn">Informe de entregas</a> <!-- Gestión de Conductores -->
+            <a th:href="@{/perfil}" class="btn">Perfil de Usuario</a> <!-- Perfil de Usuario -->
+            <a th:href="@{/historial}" class="btn">Ver historial de entregas</a> <!-- Perfil de Usuario -->
+        </div>
+    </div>
+</div>
+</body>
+</html>

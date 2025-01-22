@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe de Pedidos</title>
+    <link rel="stylesheet" th:href="@{/css/admin_historial.css}">
+</head>
+<body>
+
+<div class="welcome-container">
+    <div class="welcome-content">
+        <h1>Historial de Pedidos</h1>
+        <p>El número total de pedidos en el sistema es: <!--<strong th:text="${totalPedidos}>0</strong>--></p>
+        <div class="buttons">
+            <a th:href="@{/}" class="btn">Volver al Inicio</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

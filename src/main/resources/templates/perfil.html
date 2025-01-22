@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil - Menu</title>
+    <link rel="stylesheet"th:href="@{/css/perfil.css}">
+</head>
+<body>
+<div class="container">
+    <div class="menu">
+        <div class="profile">
+            <img src="https://cdn.icon-icons.com/icons2/3868/PNG/512/profile_circle_icon_242774.png" alt="Foto de perfil">
+            <h2 th:text="${usuario}"></h2>
+
+        </div>
+        <ul class="menu-items">
+            <li>  <a th:href="@{/admin}">Inicio</a></li>
+            <li><a href="#">Perfil</a></li>
+            <li><a href="#">Configuración</a></li>
+            <li><a th:href="@{/logout}">Cerrar Sesión</a></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
