@@ -41,12 +41,14 @@
 
         <div class="mb-3">
           <label for="dniAdministrador" class="form-label">DNI del Administrador</label>
-          <input type="text" id="dniAdministrador" name="dniAdministrador" class="form-control" required placeholder="Introduce el DNI del administrador">
+          <input type="text" id="dniAdministrador" name="dniAdministrador" class="form-control-plaintext" th:value="${dniAdministrador}" readonly>
         </div>
 
         <div class="mb-3">
           <label for="dniConductor" class="form-label">DNI del Conductor</label>
-          <input type="text" id="dniConductor" name="dniConductor" class="form-control" required placeholder="Introduce el DNI del conductor asignado">
+          <select id="dniConductor" name="dniConductor" class="form-select" required>
+            <option th:each="conductor : ${conductores}" th:value="${conductor.dni}" th:text="${conductor.dni}"></option>
+          </select>
         </div>
 
         <div class="mb-3">
