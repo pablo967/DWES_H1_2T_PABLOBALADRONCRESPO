@@ -29,15 +29,13 @@ public class Controlador {
     @RequestMapping("/")
     public ModelAndView peticion1(Authentication aut) {
         ModelAndView mv = new ModelAndView();
-        String usuario;
         if (aut == null) {
-            usuario = "Sin inicio de sesión";
-            mv.setViewName("index");
+            mv.setViewName("redirect:/login");
         } else {
             Optional<Usuario> userOpt = userRepositories.findById(aut.getName());
             if (userOpt.isPresent()) {
                 Usuario user = userOpt.get();
-                usuario = user.getDni() + " - " + user.getNombre() + " Rol: " + user.getRol();
+                String usuario = user.getDni() + " - " + user.getNombre() + " Rol: " + user.getRol();
                 mv.addObject("usuario", usuario);
 
                 // Redirección basada en el rol
@@ -48,7 +46,7 @@ public class Controlador {
                 }
             } else {
                 mv.addObject("usuario", "Usuario no encontrado");
-                mv.setViewName("index");
+                mv.setViewName("login");
             }
         }
         return mv;

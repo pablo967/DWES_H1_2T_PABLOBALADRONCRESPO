@@ -4,48 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Informe de Pedidos</title>
-    <link rel="stylesheet" href="/css/informe.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body>
+<div class="container py-5">
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <h1 class="card-title text-center">Informe de Pedidos</h1>
+            <p class="text-center">El número total de pedidos en el sistema es: <strong th:text="${totalPedidos}">0</strong></p>
+            <table class="table table-striped">
+                <thead class="table-dark">
+                <tr>
+                    <th>ID Entrega</th>
+                    <th>Domicilio</th>
+                    <th>DNI Cliente</th>
+                    <th>Nombre Cliente</th>
+                    <th>Estado</th>
+                    <th>DNI Administrador</th>
+                    <th>DNI Conductor</th>
+                    <th>Peso</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="entrega : ${entregas}">
+                    <td th:text="${entrega.id_entrega}"></td>
+                    <td th:text="${entrega.domicilio}"></td>
+                    <td th:text="${entrega.dniCliente}"></td>
+                    <td th:text="${entrega.nombreCliente}"></td>
+                    <td th:text="${entrega.estado}"></td>
+                    <td th:text="${entrega.dniAdministrador}"></td>
+                    <td th:text="${entrega.dniConductor}"></td>
+                    <td th:text="${entrega.peso}"></td>
+                </tr>
+                </tbody>
+            </table>
 
-<div class="welcome-container">
-    <div class="welcome-content">
-        <h1>Informe de Pedidos</h1>
-        <p>El número total de pedidos en el sistema es: <strong th:text="${totalPedidos}">0</strong></p>
-
-        <table class="pedido-table">
-            <thead>
-            <tr>
-                <th>ID Entrega</th>
-                <th>Domicilio</th>
-                <th>DNI Cliente</th>
-                <th>Nombre Cliente</th>
-                <th>Estado</th>
-                <th>DNI Administrador</th>
-                <th>DNI Conductor</th>
-                <th>Peso</th>
-            </tr>
-            </thead>
-            <tbody>
-
-            <tr th:each="entrega : ${entregas}">
-                <td th:text="${entrega.id_entrega}"></td>
-                <td th:text="${entrega.domicilio}"></td>
-                <td th:text="${entrega.dniCliente}"></td>
-                <td th:text="${entrega.nombreCliente}"></td>
-                <td th:text="${entrega.estado}"></td>
-                <td th:text="${entrega.dniAdministrador}"></td>
-                <td th:text="${entrega.dniConductor}"></td>
-                <td th:text="${entrega.peso}"></td>
-            </tr>
-            </tbody>
-        </table>
-
-        <div class="buttons">
-            <a href="/" class="btn">Volver al Inicio</a>
+            <div class="text-center mt-3">
+                <a href="/" class="btn btn-primary">Volver al Inicio</a>
+            </div>
         </div>
     </div>
 </div>
-
 </body>
 </html>
