@@ -73,7 +73,6 @@ body {
     color: white;
 }
 
-/* Responsiveness */
 @media screen and (max-width: 768px) {
     .menu {
         padding: 15px;

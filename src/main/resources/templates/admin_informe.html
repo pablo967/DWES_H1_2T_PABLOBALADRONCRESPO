@@ -13,7 +13,6 @@
         <h1>Informe de Pedidos</h1>
         <p>El número total de pedidos en el sistema es: <strong th:text="${totalPedidos}">0</strong></p>
 
-        <!-- Tabla de Pedidos -->
         <table class="pedido-table">
             <thead>
             <tr>
@@ -28,7 +27,7 @@
             </tr>
             </thead>
             <tbody>
-            <!-- Aquí se agregan dinámicamente los datos de los pedidos -->
+
             <tr th:each="entrega : ${entregas}">
                 <td th:text="${entrega.id_entrega}"></td>
                 <td th:text="${entrega.domicilio}"></td>
@@ -42,7 +41,6 @@
             </tbody>
         </table>
 
-        <!-- Botón para volver al inicio -->
         <div class="buttons">
             <a href="/" class="btn">Volver al Inicio</a>
         </div>

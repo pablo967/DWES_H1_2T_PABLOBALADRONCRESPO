@@ -1,14 +1,12 @@
-/* Reset de márgenes y rellenos predeterminados */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Fondo del body */
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #4facfe, #00f2fe); /* Gradiente azul */
+    background: linear-gradient(to right, #4facfe, #00f2fe);
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -16,18 +14,16 @@ body {
     color: #333;
 }
 
-/* Contenedor principal con fondo blanco */
 .welcome-container {
     background-color: white;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 1100px; /* Máximo ancho */
+    max-width: 1100px;
     margin: 20px;
 }
 
-/* Título */
 .welcome-content h1 {
     font-size: 2rem;
     color: #333;
@@ -35,7 +31,6 @@ body {
     text-align: center;
 }
 
-/* Párrafo de descripción */
 .welcome-content p {
     font-size: 1.1rem;
     color: #555;
@@ -43,7 +38,6 @@ body {
     text-align: center;
 }
 
-/* Estilo de la tabla */
 .pedido-table {
     width: 100%;
     border-collapse: collapse;
@@ -67,7 +61,6 @@ body {
     font-size: 0.9rem;
 }
 
-/* Botones */
 .buttons {
     display: flex;
     justify-content: center;
@@ -88,7 +81,6 @@ body {
     background-color: #00f2fe;
 }
 
-/* Responsividad */
 @media (max-width: 768px) {
     .welcome-content h1 {
         font-size: 1.6rem;

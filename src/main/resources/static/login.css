@@ -6,7 +6,7 @@
 
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #4facfe, #00f2fe); /* Gradiente azul */
+    background: linear-gradient(to right, #4facfe, #00f2fe);
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -84,7 +84,6 @@ button:hover {
     text-decoration: underline;
 }
 
-/* Responsiveness */
 @media screen and (max-width: 768px) {
     .login-box {
         width: 80%;
