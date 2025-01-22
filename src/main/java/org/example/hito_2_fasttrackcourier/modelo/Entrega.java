@@ -128,6 +128,6 @@ public class Entrega {
     }
 
     public enum EstadoEntrega {
-        recibido, preparado, en_camino, entregado
+        RECIBIDO, PREPARADO, EN_CAMINO, ENTREGADO
     }
 }
