@@ -27,10 +27,10 @@ public class EntregaService {
         Entrega entrega = new Entrega();
         entrega.setDomicilio(domicilio);
         entrega.setDni_cliente(dniCliente);
-        entrega.setNombreCliente(nombreCliente);
-        entrega.setDniConductor(dniConductor);
+        entrega.setNombre_cliente(nombreCliente);
+        entrega.setDni_conductor(dniConductor);
         entrega.setEstado(Entrega.EstadoEntrega.RECIBIDO);
-        entrega.setFechaHoraRegistro(Timestamp.valueOf(LocalDateTime.now()));
+        entrega.setFecha_hora_registro(Timestamp.valueOf(LocalDateTime.now()));
         entregaRepository.save(entrega);
     }
 
@@ -38,7 +38,7 @@ public class EntregaService {
         Entrega entrega = entregaRepository.findById(idEntrega).orElseThrow(() -> new IllegalArgumentException("Entrega no encontrada"));
         entrega.setEstado(Entrega.EstadoEntrega.valueOf(estado.toUpperCase()));
         if (estado.equalsIgnoreCase("entregado") && fechaHoraEntrega != null) {
-            entrega.setFechaHoraEntrega(Timestamp.valueOf(LocalDateTime.parse(fechaHoraEntrega)));
+            entrega.setFecha_hora_entrega(Timestamp.valueOf(LocalDateTime.parse(fechaHoraEntrega)));
         }
         entregaRepository.save(entrega);
     }

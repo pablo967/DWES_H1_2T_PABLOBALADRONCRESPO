@@ -84,11 +84,10 @@ public class Controlador {
     public ModelAndView mostrarFormularioRegistro(Authentication aut) {
         ModelAndView mv = new ModelAndView("admin_registro");
 
-        // Obtener la lista de conductores
+
         List<Usuario> conductores = userRepositories.findByRol("conductor");
         mv.addObject("conductores", conductores);
 
-        // Obtener el DNI del administrador que ha iniciado sesión
         if (aut != null) {
             Optional<Usuario> userOpt = userRepositories.findById(aut.getName());
             if (userOpt.isPresent()) {
