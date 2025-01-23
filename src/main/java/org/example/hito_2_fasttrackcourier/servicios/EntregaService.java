@@ -29,8 +29,8 @@ public class EntregaService {
         entrega.setDni_cliente(dniCliente);
         entrega.setNombreCliente(nombreCliente);
         entrega.setDniConductor(dniConductor);
-        entrega.setEstado(Entrega.EstadoEntrega.RECIBIDO);
-        entrega.setFechaHoraRegistro(Timestamp.valueOf(LocalDateTime.now()));
+        entrega.setEstado(Entrega.EstadoEntrega.recibido);
+        entrega.setFechaHoraRegistro(Timestamp.valueOf(LocalDateTime.now()).toLocalDateTime());
         entregaRepository.save(entrega);
     }
 
@@ -38,7 +38,7 @@ public class EntregaService {
         Entrega entrega = entregaRepository.findById(idEntrega).orElseThrow(() -> new IllegalArgumentException("Entrega no encontrada"));
         entrega.setEstado(Entrega.EstadoEntrega.valueOf(estado.toUpperCase()));
         if (estado.equalsIgnoreCase("entregado") && fechaHoraEntrega != null) {
-            entrega.setFechaHoraEntrega(Timestamp.valueOf(LocalDateTime.parse(fechaHoraEntrega)));
+            entrega.setFechaHoraEntrega(Timestamp.valueOf(LocalDateTime.parse(fechaHoraEntrega)).toLocalDateTime());
         }
         entregaRepository.save(entrega);
     }
@@ -47,11 +47,5 @@ public class EntregaService {
         return entregaRepository.count();
     }
 
-    public long getEntregasPorEstado(Entrega.EstadoEntrega estado) {
-        return entregaRepository.countByEstado(estado);
-    }
 
-    public List<Object[]> getEntregasPorConductor() {
-        return entregaRepository.countByConductor();
-    }
 }

@@ -1,44 +1,39 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mis Entregas</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <title>Paquetes Asignados</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-<div class="container py-5">
-    <h1 class="text-center">Mis Entregas</h1>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Dirección</th>
-            <th>Cliente</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="entrega : ${entregas}">
-            <td th:text="${entrega.id}"></td>
-            <td th:text="${entrega.domicilio}"></td>
-            <td th:text="${entrega.nombreCliente}"></td>
-            <td th:text="${entrega.estado}"></td>
-            <td>
-                <form th:action="@{/conductor/actualizarEstado}" method="post">
-                    <input type="hidden" name="id" th:value="${entrega.id}">
-                    <select name="estado" class="form-select">
-                        <option value="en_proceso">En Proceso</option>
-                        <option value="completada">Completada</option>
-                        <option value="cancelada">Cancelada</option>
-                    </select>
-                    <button type="submit" class="btn btn-primary mt-2">Actualizar</button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+<body class="container mt-4">
+<h1>Paquetes Asignados</h1>
+<table class="table table-bordered">
+    <thead class="table-dark">
+    <tr>
+        <th>ID Entrega</th>
+        <th>Domicilio</th>
+        <th>DNI Cliente</th>
+        <th>Nombre Cliente</th>
+        <th>Estado</th>
+        <th>Fecha Hora Registro</th>
+        <th>Fecha Hora Salida</th>
+        <th>Fecha Entrega Prevista</th>
+        <th>Fecha Hora Entrega</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="entrega : ${entregas}">
+        <td th:text="${entrega.idEntrega}"></td>
+        <td th:text="${entrega.domicilio}"></td>
+        <td th:text="${entrega.dni_cliente}"></td>
+        <td th:text="${entrega.nombreCliente}"></td>
+        <td th:text="${entrega.estado}"></td>
+        <td th:text="${entrega.fechaHoraRegistro}"></td>
+        <td th:text="${entrega.fechaHoraSalida}"></td>
+        <td th:text="${entrega.fechaEntregaPrevista}"></td>
+        <td th:text="${entrega.fechaHoraEntrega}"></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

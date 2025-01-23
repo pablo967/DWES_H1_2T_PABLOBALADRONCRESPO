@@ -2,6 +2,8 @@ package org.example.hito_2_fasttrackcourier.modelo;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 
@@ -18,13 +20,23 @@ public class Entrega {
     private EstadoEntrega estado;
     private String dniAdministrador;
     private String dniConductor;
-    private Timestamp fechaHoraRegistro;
-    private Timestamp fechaHoraSalida;
-    private Date fechaEntregaPrevista;
-    private Timestamp fechaHoraEntrega;
+    private LocalDateTime fechaHoraRegistro;
+    private LocalDateTime fechaHoraSalida;
+    private LocalDate fechaEntregaPrevista;
+    private LocalDateTime fechaHoraEntrega;
 
 
-    public Entrega(String domicilio, String dni_cliente, String nombreCliente, EstadoEntrega estado, String dniAdministrador, String dniConductor, Timestamp fechaHoraRegistro, Timestamp fechaHoraSalida, Date fechaEntregaPrevista, Timestamp fechaHoraEntrega) {
+    
+
+    public Entrega() {
+
+    }
+
+
+    public Entrega(String domicilio, String dni_cliente, String nombreCliente, EstadoEntrega estado,
+                   String dniAdministrador, String dniConductor, LocalDateTime fechaHoraRegistro,
+                   LocalDateTime fechaHoraSalida, LocalDate fechaEntregaPrevista, LocalDateTime fechaHoraEntrega) {
+
         this.domicilio = domicilio;
         this.dni_cliente = dni_cliente;
         this.nombreCliente = nombreCliente;
@@ -37,10 +49,6 @@ public class Entrega {
         this.fechaHoraEntrega = fechaHoraEntrega;
     }
 
-    public Entrega() {
-
-    }
-
     public int getIdEntrega() {
         return idEntrega;
     }
@@ -49,21 +57,6 @@ public class Entrega {
         this.idEntrega = idEntrega;
     }
 
-    public Timestamp getFechaHoraSalida() {
-        return fechaHoraSalida;
-    }
-
-    public void setFechaHoraSalida(Timestamp fechaHoraSalida) {
-        this.fechaHoraSalida = fechaHoraSalida;
-    }
-
-    public Timestamp getFechaHoraRegistro() {
-        return fechaHoraRegistro;
-    }
-
-    public void setFechaHoraRegistro(Timestamp fechaHoraRegistro) {
-        this.fechaHoraRegistro = fechaHoraRegistro;
-    }
 
     public String getDniConductor() {
         return dniConductor;
@@ -73,19 +66,27 @@ public class Entrega {
         this.dniConductor = dniConductor;
     }
 
-    public Timestamp getFechaHoraEntrega() {
+    public LocalDateTime getFechaHoraSalida() {
+        return fechaHoraSalida;
+    }
+
+    public void setFechaHoraSalida(LocalDateTime fechaHoraSalida) {
+        this.fechaHoraSalida = fechaHoraSalida;
+    }
+
+    public LocalDateTime getFechaHoraEntrega() {
         return fechaHoraEntrega;
     }
 
-    public void setFechaHoraEntrega(Timestamp fechaHoraEntrega) {
+    public void setFechaHoraEntrega(LocalDateTime fechaHoraEntrega) {
         this.fechaHoraEntrega = fechaHoraEntrega;
     }
 
-    public Date getFechaEntregaPrevista() {
+    public LocalDate getFechaEntregaPrevista() {
         return fechaEntregaPrevista;
     }
 
-    public void setFechaEntregaPrevista(Date fechaEntregaPrevista) {
+    public void setFechaEntregaPrevista(LocalDate fechaEntregaPrevista) {
         this.fechaEntregaPrevista = fechaEntregaPrevista;
     }
 
@@ -130,6 +131,14 @@ public class Entrega {
     }
 
     public enum EstadoEntrega {
-        RECIBIDO, PREPARADO, EN_CAMINO, ENTREGADO
+        recibido, preparado, en_camino, entregado
+    }
+
+    public LocalDateTime getFechaHoraRegistro() {
+        return fechaHoraRegistro;
+    }
+
+    public void setFechaHoraRegistro(LocalDateTime fechaHoraRegistro) {
+        this.fechaHoraRegistro = fechaHoraRegistro;
     }
 }

@@ -29,8 +29,8 @@
       <form action="/nuevoRegistro" method="post" onsubmit="return validateForm()">
 
         <div class="mb-3">
-          <label for="delivery-address" class="form-label">Dirección de Entrega</label>
-          <input type="text" id="delivery-address" name="domicilio" class="form-control" required placeholder="Introduce la dirección completa de entrega">
+          <label for="domicilio" class="form-label">Dirección de Entrega</label>
+          <input type="text" id="domicilio" name="domicilio" class="form-control" required placeholder="Introduce la dirección completa de entrega">
         </div>
 
         <div class="mb-3">
@@ -44,8 +44,8 @@
         </div>
 
         <div class="mb-3">
-          <label for="status" class="form-label">Estado de la Entrega</label>
-          <select id="status" name="estado" class="form-select" required>
+          <label for="estado" class="form-label">Estado de la Entrega</label>
+          <select id="estado" name="estado" class="form-select" required>
             <option value="recibido">Recibido</option>
             <option value="preparado">Preparado</option>
             <option value="en_camino">En camino</option>

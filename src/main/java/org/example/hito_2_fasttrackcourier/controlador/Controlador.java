@@ -11,15 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,19 +57,25 @@ public class Controlador {
         return mv;
     }
 
-    @RequestMapping("/informe")
+    @RequestMapping(value = "/informe", method = RequestMethod.GET)
     public ModelAndView peticionInforme() {
         ModelAndView mv = new ModelAndView();
 
-        int totalPedidos = (int) entregaRepositories.count();
-        List<Entrega> entregas = (List<Entrega>) entregaRepositories.findAll();
+        try {
+            int totalPedidos = (int) entregaRepositories.count();
+            List<Entrega> entregas = (List<Entrega>) entregaRepositories.findAll();
 
-        mv.addObject("totalPedidos", totalPedidos);
-        mv.addObject("entregas", entregas);
-        mv.setViewName("admin_informe");
+            mv.addObject("totalPedidos", totalPedidos);
+            mv.addObject("entregas", entregas);
+            mv.setViewName("admin_informe");
+        } catch (Exception e) {
+            logger.error("Error al generar el informe", e);
+            mv.setViewName("error");
+        }
 
         return mv;
     }
+
     @RequestMapping("/login")
     public ModelAndView peticionLogin() {
         ModelAndView mv = new ModelAndView();
@@ -118,14 +119,25 @@ public class Controlador {
             @RequestParam Entrega.EstadoEntrega estado,
             @RequestParam String dniAdministrador,
             @RequestParam String dniConductor,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Timestamp fechaHoraRegistro,
-            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Timestamp fechaHoraSalida,
-            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaEntregaPrevista,
-            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Timestamp fechaHoraEntrega
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime fechaHoraRegistro,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime fechaHoraSalida,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fechaEntregaPrevista,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime fechaHoraEntrega
+
+
     ) {
+
+        System.out.println(dniCliente +"mondongo");
         try {
-            // Crear nueva entrega con los datos recibidos
+            if (dniCliente == null || dniCliente.isEmpty()) {
+                throw new IllegalArgumentException("DNI del cliente no puede ser nulo o vacío");
+            }
+
+            logger.info("Registrando entrega con los siguientes datos: domicilio={}, dniCliente={}, nombreCliente={}, estado={}, dniAdministrador={}, dniConductor={}, fechaHoraRegistro={}, fechaHoraSalida={}, fechaEntregaPrevista={}, fechaHoraEntrega={}",
+                    domicilio, dniCliente, nombreCliente, estado, dniAdministrador, dniConductor, fechaHoraRegistro, fechaHoraSalida, fechaEntregaPrevista, fechaHoraEntrega);
+
             Entrega nuevaEntrega = new Entrega(
+
                     domicilio,
                     dniCliente,
                     nombreCliente,
@@ -138,15 +150,36 @@ public class Controlador {
                     fechaHoraEntrega
             );
 
-            // Guardar la nueva entrega en la base de datos
-            entregaRepositories.save(nuevaEntrega);
 
-            // Redirigir al panel del administrador tras el registro exitoso
-            return new ModelAndView("redirect:/admin");
+            entregaRepositories.save(nuevaEntrega);
+            ModelAndView mv = new ModelAndView();
+            mv.setViewName("admin");
+            return mv;
         } catch (Exception e) {
-            // Registrar el error y mostrar una página de error en caso de fallo
             logger.error("Error al registrar la entrega", e);
             return new ModelAndView("error");
         }
+    }
+
+    @RequestMapping(value = "/paquetesAsignados", method = RequestMethod.GET)
+    public ModelAndView verPaquetesAsignados(Authentication aut) {
+        ModelAndView mv = new ModelAndView();
+
+        try {
+            if (aut != null) {
+                String dniConductor = aut.getName();
+                List<Entrega> entregas = entregaRepositories.findByDniConductor(dniConductor);
+
+                mv.addObject("entregas", entregas);
+                mv.setViewName("conductor_entregas");
+            } else {
+                mv.setViewName("redirect:/conductor");
+            }
+        } catch (Exception e) {
+            logger.error("Error al obtener los paquetes asignados", e);
+            mv.setViewName("error");
+        }
+
+        return mv;
     }
 }
