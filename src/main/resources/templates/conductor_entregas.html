@@ -1,39 +1,48 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Paquetes Asignados</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body class="container mt-4">
-<h1>Paquetes Asignados</h1>
-<table class="table table-bordered">
-    <thead class="table-dark">
-    <tr>
-        <th>ID Entrega</th>
-        <th>Domicilio</th>
-        <th>DNI Cliente</th>
-        <th>Nombre Cliente</th>
-        <th>Estado</th>
-        <th>Fecha Hora Registro</th>
-        <th>Fecha Hora Salida</th>
-        <th>Fecha Entrega Prevista</th>
-        <th>Fecha Hora Entrega</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="entrega : ${entregas}">
-        <td th:text="${entrega.idEntrega}"></td>
-        <td th:text="${entrega.domicilio}"></td>
-        <td th:text="${entrega.dni_cliente}"></td>
-        <td th:text="${entrega.nombreCliente}"></td>
-        <td th:text="${entrega.estado}"></td>
-        <td th:text="${entrega.fechaHoraRegistro}"></td>
-        <td th:text="${entrega.fechaHoraSalida}"></td>
-        <td th:text="${entrega.fechaEntregaPrevista}"></td>
-        <td th:text="${entrega.fechaHoraEntrega}"></td>
-    </tr>
-    </tbody>
-</table>
+<body class="bg-light">
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-body">
+            <h2 class="text-primary mb-4">Tus Paquetes Asignados</h2>
+
+            <div th:if="${param.exito}" class="alert alert-success">
+                ¡Estado actualizado correctamente!
+            </div>
+            <div th:if="${param.error == 'no_autorizado'}" class="alert alert-danger">
+                No tienes permiso para modificar esta entrega
+            </div>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Domicilio</th>
+                    <th>Estado</th>
+                    <th>Fecha Entrega Prevista</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="entrega : ${entregas}">
+                    <td th:text="${entrega.domicilio}"></td>
+                    <td th:text="${entrega.estado}"></td>
+                    <td th:text="${entrega.fechaEntregaPrevista}"></td>
+                    <td>
+                        <a th:href="@{/actualizarEntrega/{id}(id=${entrega.idEntrega})}"
+                           class="btn btn-sm btn-warning">Actualizar Estado</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <a th:href="@{/}" class="btn btn-secondary">Volver al Panel</a>
+        </div>
+    </div>
+</div>
 </body>
 </html>

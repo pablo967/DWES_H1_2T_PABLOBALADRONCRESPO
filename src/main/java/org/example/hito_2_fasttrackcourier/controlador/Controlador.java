@@ -184,11 +184,13 @@ public class Controlador {
     @RequestMapping(value = "/paquetesAsignados", method = RequestMethod.GET)
     public ModelAndView verPaquetesAsignados(Authentication aut) {
         ModelAndView mv = new ModelAndView();
-
         try {
             if (aut != null) {
                 String dniConductor = aut.getName();
-                List<Entrega> entregas = entregaRepositories.findByDniConductor(dniConductor);
+                List<Entrega> entregas = entregaRepositories.findByDniConductorAndEstadoNot(
+                        dniConductor,
+                        Entrega.EstadoEntrega.entregado
+                );
 
                 mv.addObject("entregas", entregas);
                 mv.setViewName("conductor_entregas");
@@ -199,7 +201,89 @@ public class Controlador {
             logger.error("Error al obtener los paquetes asignados", e);
             mv.setViewName("error");
         }
+        return mv;
+    }
 
+    @RequestMapping(value = "/conductorHistorial", method = RequestMethod.GET)
+    public ModelAndView verHistorialConductor(Authentication aut) {
+        ModelAndView mv = new ModelAndView();
+        try {
+            if (aut != null) {
+                String dniConductor = aut.getName();
+                List<Entrega> historial = entregaRepositories.findByDniConductor(dniConductor);
+
+                mv.addObject("historial", historial);
+                mv.setViewName("conductor_historial");
+            } else {
+                mv.setViewName("redirect:/conductor");
+            }
+        } catch (Exception e) {
+            logger.error("Error al obtener el historial", e);
+            mv.setViewName("error");
+        }
+        return mv;
+    }
+
+    @GetMapping("/actualizarEntrega/{id}")
+    public ModelAndView mostrarFormularioActualizacion(@PathVariable("id") Integer id, Authentication aut) {
+        ModelAndView mv = new ModelAndView();
+        try {
+            Optional<Entrega> entregaOpt = entregaRepositories.findById(id);
+
+            if (entregaOpt.isPresent()) {
+                Entrega entrega = entregaOpt.get();
+                // Verificar que el conductor es el asignado
+                if (aut != null && entrega.getDniConductor().equals(aut.getName())) {
+                    mv.addObject("entrega", entrega);
+                    mv.setViewName("actualizar_entrega");
+                } else {
+                    mv.setViewName("redirect:/paquetesAsignados?error=no_autorizado");
+                }
+            } else {
+                mv.setViewName("redirect:/paquetesAsignados?error=no_encontrado");
+            }
+        } catch (Exception e) {
+            logger.error("Error al obtener la entrega", e);
+            mv.setViewName("error");
+        }
+        return mv;
+    }
+
+    @PostMapping("/actualizarEntrega/{id}")
+    public ModelAndView actualizarEstadoEntrega(
+            @PathVariable("id") Integer id,
+            @RequestParam("nuevoEstado") Entrega.EstadoEntrega nuevoEstado,
+            Authentication aut) {
+
+        ModelAndView mv = new ModelAndView();
+        try {
+            Optional<Entrega> entregaOpt = entregaRepositories.findById(id);
+
+            if (entregaOpt.isPresent()) {
+                Entrega entrega = entregaOpt.get();
+
+                // Verificar autorización
+                if (aut != null && entrega.getDniConductor().equals(aut.getName())) {
+                    // Actualizar estado
+                    entrega.setEstado(nuevoEstado);
+
+                    // Registrar fecha/hora de entrega si corresponde
+                    if (nuevoEstado == Entrega.EstadoEntrega.entregado) {
+                        entrega.setFechaHoraEntrega(LocalDateTime.now());
+                    }
+
+                    entregaRepositories.save(entrega);
+                    mv.setViewName("redirect:/paquetesAsignados?exito=true");
+                } else {
+                    mv.setViewName("redirect:/paquetesAsignados?error=no_autorizado");
+                }
+            } else {
+                mv.setViewName("redirect:/paquetesAsignados?error=no_encontrado");
+            }
+        } catch (Exception e) {
+            logger.error("Error al actualizar la entrega", e);
+            mv.setViewName("error");
+        }
         return mv;
     }
 

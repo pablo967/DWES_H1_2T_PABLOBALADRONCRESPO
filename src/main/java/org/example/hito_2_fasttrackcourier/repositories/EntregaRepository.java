@@ -11,4 +11,6 @@ public interface EntregaRepository extends CrudRepository<Entrega, Integer> {
     @Query("SELECT e.dniConductor, COUNT(e) FROM Entrega e GROUP BY e.dniConductor")
     List<Object[]> countEntregasPorConductor();
     List<Entrega> findByDniConductor(String dniConductor);
+    List<Entrega> findByDniConductorAndEstadoNot(String dniConductor, Entrega.EstadoEntrega estado);
+    List<Entrega> findByDniConductorAndEstado(String dniConductor, Entrega.EstadoEntrega estado);
 }
