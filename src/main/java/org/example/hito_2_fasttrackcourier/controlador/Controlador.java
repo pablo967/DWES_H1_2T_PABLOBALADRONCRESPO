@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class Controlador {
@@ -59,17 +62,42 @@ public class Controlador {
 
     @RequestMapping(value = "/informe", method = RequestMethod.GET)
     public ModelAndView peticionInforme() {
+        ModelAndView mv = new ModelAndView("admin_informe");
+
+        try {
+            long totalPedidos = entregaService.countTotalEntregas();
+            long totalRecibido = entregaService.countByEstado(Entrega.EstadoEntrega.recibido);
+            long totalPreparado = entregaService.countByEstado(Entrega.EstadoEntrega.preparado);
+            long totalEnCamino = entregaService.countByEstado(Entrega.EstadoEntrega.en_camino);
+            long totalEntregado = entregaService.countByEstado(Entrega.EstadoEntrega.entregado);
+
+            Map<String, Long> entregasPorConductor = entregaService.countEntregasPorConductor();
+
+            mv.addObject("totalPedidos", totalPedidos);
+            mv.addObject("totalRecibido", totalRecibido);
+            mv.addObject("totalPreparado", totalPreparado);
+            mv.addObject("totalEnCamino", totalEnCamino);
+            mv.addObject("totalEntregado", totalEntregado);
+            mv.addObject("entregasPorConductor", entregasPorConductor);
+
+        } catch (Exception e) {
+            logger.error("Error al generar el informe", e);
+            mv.setViewName("error");
+        }
+
+        return mv;
+    }
+
+    @RequestMapping(value = "/historial", method = RequestMethod.GET)
+    public ModelAndView peticionHistorial() {
         ModelAndView mv = new ModelAndView();
 
         try {
-            int totalPedidos = (int) entregaRepositories.count();
             List<Entrega> entregas = (List<Entrega>) entregaRepositories.findAll();
-
-            mv.addObject("totalPedidos", totalPedidos);
             mv.addObject("entregas", entregas);
-            mv.setViewName("admin_informe");
+            mv.setViewName("admin_historial");
         } catch (Exception e) {
-            logger.error("Error al generar el informe", e);
+            logger.error("Error al generar el historial", e);
             mv.setViewName("error");
         }
 
@@ -104,13 +132,6 @@ public class Controlador {
         return mv;
     }
 
-    @RequestMapping("/perfil")
-    public ModelAndView peticionPerfil() {
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("perfil");
-        return mv;
-    }
-
     @PostMapping("/nuevoRegistro")
     public ModelAndView registrarEntrega(
             @RequestParam String domicilio,
@@ -127,7 +148,6 @@ public class Controlador {
 
     ) {
 
-        System.out.println(dniCliente +"mondongo");
         try {
             if (dniCliente == null || dniCliente.isEmpty()) {
                 throw new IllegalArgumentException("DNI del cliente no puede ser nulo o vacío");
@@ -182,4 +202,6 @@ public class Controlador {
 
         return mv;
     }
+
+
 }

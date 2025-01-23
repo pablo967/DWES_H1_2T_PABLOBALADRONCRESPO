@@ -1,41 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Informe de Entregas</title>
 </head>
 <body>
 <h1>Informe de Entregas</h1>
-<p>Total de Pedidos: ${totalPedidos}</p>
+<p>Total de Pedidos: <span th:text="${totalPedidos}">--</span></p>
+
+<h2>Entregas por Estado</h2>
+<ul>
+    <li>Recibido: <span th:text="${totalRecibido}">0</span></li>
+    <li>Preparado: <span th:text="${totalPreparado}">0</span></li>
+    <li>En Camino: <span th:text="${totalEnCamino}">0</span></li>
+    <li>Entregado: <span th:text="${totalEntregado}">0</span></li>
+</ul>
+
+<h2>Entregas por Conductor</h2>
 <table border="1">
     <thead>
     <tr>
-        <th>ID Entrega</th>
-        <th>Domicilio</th>
-        <th>DNI Cliente</th>
-        <th>Nombre Cliente</th>
-        <th>Estado</th>
-        <th>DNI Administrador</th>
         <th>DNI Conductor</th>
-        <th>Fecha Hora Registro</th>
-        <th>Fecha Hora Salida</th>
-        <th>Fecha Entrega Prevista</th>
-        <th>Fecha Hora Entrega</th>
+        <th>Total Entregas</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="entrega : ${entregas}">
-        <td th:text="${entrega.idEntrega}"></td>
-        <td th:text="${entrega.domicilio}"></td>
-        <td th:text="${entrega.dniCliente}"></td>
-        <td th:text="${entrega.nombreCliente}"></td>
-        <td th:text="${entrega.estado}"></td>
-        <td th:text="${entrega.dniAdministrador}"></td>
-        <td th:text="${entrega.dniConductor}"></td>
-        <td th:text="${entrega.fechaHoraRegistro}"></td>
-        <td th:text="${entrega.fechaHoraSalida}"></td>
-        <td th:text="${entrega.fechaEntregaPrevista}"></td>
-        <td th:text="${entrega.fechaHoraEntrega}"></td>
+    <tr th:each="entry : ${entregasPorConductor}">
+        <td th:text="${entry.key} ?: 'Sin asignar'">DNI</td>
+        <td th:text="${entry.value}">0</td>
     </tr>
     </tbody>
 </table>

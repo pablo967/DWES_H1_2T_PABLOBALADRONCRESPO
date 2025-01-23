@@ -5,47 +5,41 @@ import org.example.hito_2_fasttrackcourier.repositories.EntregaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class EntregaService {
 
+    private final EntregaRepository entregaRepository;
+
     @Autowired
-    private EntregaRepository entregaRepository;
-
-    public List<Entrega> getAllEntregas() {
-        return (List<Entrega>) entregaRepository.findAll();
+    public EntregaService(EntregaRepository entregaRepository) {
+        this.entregaRepository = entregaRepository;
     }
 
-    public List<Entrega> getEntregasPorConductor(String dniConductor) {
-        return entregaRepository.findByDniConductor(dniConductor);
-    }
-
-    public void crearEntrega(String domicilio, String dniCliente, String nombreCliente, String dniConductor) {
-        Entrega entrega = new Entrega();
-        entrega.setDomicilio(domicilio);
-        entrega.setDni_cliente(dniCliente);
-        entrega.setNombreCliente(nombreCliente);
-        entrega.setDniConductor(dniConductor);
-        entrega.setEstado(Entrega.EstadoEntrega.recibido);
-        entrega.setFechaHoraRegistro(Timestamp.valueOf(LocalDateTime.now()).toLocalDateTime());
-        entregaRepository.save(entrega);
-    }
-
-    public void actualizarEstado(int idEntrega, String estado, String fechaHoraEntrega) {
-        Entrega entrega = entregaRepository.findById(idEntrega).orElseThrow(() -> new IllegalArgumentException("Entrega no encontrada"));
-        entrega.setEstado(Entrega.EstadoEntrega.valueOf(estado.toUpperCase()));
-        if (estado.equalsIgnoreCase("entregado") && fechaHoraEntrega != null) {
-            entrega.setFechaHoraEntrega(Timestamp.valueOf(LocalDateTime.parse(fechaHoraEntrega)).toLocalDateTime());
-        }
-        entregaRepository.save(entrega);
-    }
-
-    public long getTotalEntregas() {
+    // Total de entregas
+    public long countTotalEntregas() {
         return entregaRepository.count();
     }
 
+    // Entregas por estado
+    public long countByEstado(Entrega.EstadoEntrega estado) {
+        return entregaRepository.countByEstado(estado);
+    }
 
+    // Entregas por conductor
+    public Map<String, Long> countEntregasPorConductor() {
+        List<Object[]> resultados = entregaRepository.countEntregasPorConductor();
+        Map<String, Long> conteo = new LinkedHashMap<>();
+
+        for (Object[] resultado : resultados) {
+            String dni = (String) resultado[0];
+            Long cantidad = (Long) resultado[1];
+            conteo.put(dni != null ? dni : "Sin asignar", cantidad);
+        }
+
+        return conteo;
+    }
 }
