@@ -5,6 +5,8 @@ import org.example.hito_2_fasttrackcourier.modelo.Usuario;
 import org.example.hito_2_fasttrackcourier.repositories.EntregaRepository;
 import org.example.hito_2_fasttrackcourier.repositories.UsuarioRepository;
 import org.example.hito_2_fasttrackcourier.servicios.EntregaService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
@@ -23,6 +25,8 @@ import java.util.Optional;
 
 @Controller
 public class Controlador {
+    private static final Logger logger = LoggerFactory.getLogger(Controlador.class);
+
     @Autowired
     UsuarioRepository userRepositories;
 
@@ -115,24 +119,34 @@ public class Controlador {
             @RequestParam String dniAdministrador,
             @RequestParam String dniConductor,
             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Timestamp fechaHoraRegistro,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Timestamp fechaHoraSalida,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaEntregaPrevista,
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Timestamp fechaHoraEntrega
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Timestamp fechaHoraSalida,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaEntregaPrevista,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") Timestamp fechaHoraEntrega
     ) {
-        Entrega nuevaEntrega = new Entrega(
-                domicilio,
-                dniCliente,
-                nombreCliente,
-                estado,
-                dniAdministrador,
-                dniConductor,
-                fechaHoraRegistro,
-                fechaHoraSalida,
-                fechaEntregaPrevista,
-                fechaHoraEntrega
-        );
+        try {
+            // Crear nueva entrega con los datos recibidos
+            Entrega nuevaEntrega = new Entrega(
+                    domicilio,
+                    dniCliente,
+                    nombreCliente,
+                    estado,
+                    dniAdministrador,
+                    dniConductor,
+                    fechaHoraRegistro,
+                    fechaHoraSalida,
+                    fechaEntregaPrevista,
+                    fechaHoraEntrega
+            );
 
-        entregaRepositories.save(nuevaEntrega);
-        return new ModelAndView("perfil");
+            // Guardar la nueva entrega en la base de datos
+            entregaRepositories.save(nuevaEntrega);
+
+            // Redirigir al panel del administrador tras el registro exitoso
+            return new ModelAndView("redirect:/admin");
+        } catch (Exception e) {
+            // Registrar el error y mostrar una página de error en caso de fallo
+            logger.error("Error al registrar la entrega", e);
+            return new ModelAndView("error");
+        }
     }
 }

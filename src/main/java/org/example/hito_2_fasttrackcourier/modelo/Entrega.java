@@ -9,98 +9,100 @@ import jakarta.persistence.*;
 public class Entrega {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_entrega;
+    private int idEntrega;
     private String domicilio;
     private String dni_cliente;
-    private String nombre_cliente;
+    private String nombreCliente;
+
+    @Enumerated(EnumType.STRING)
     private EstadoEntrega estado;
-    private String dni_administrador;
-    private String dni_conductor;
-    private Timestamp fecha_hora_registro;
-    private Timestamp fecha_hora_salida;
-    private Date fecha_entrega_prevista;
-    private Timestamp fecha_hora_entrega;
+    private String dniAdministrador;
+    private String dniConductor;
+    private Timestamp fechaHoraRegistro;
+    private Timestamp fechaHoraSalida;
+    private Date fechaEntregaPrevista;
+    private Timestamp fechaHoraEntrega;
 
 
-    public Entrega(String domicilio, String dni_cliente, String nombre_cliente, EstadoEntrega estado, String dni_administrador, String dni_conductor, Timestamp fecha_hora_registro, Timestamp fecha_hora_salida, Date fecha_entrega_prevista, Timestamp fecha_hora_entrega) {
+    public Entrega(String domicilio, String dni_cliente, String nombreCliente, EstadoEntrega estado, String dniAdministrador, String dniConductor, Timestamp fechaHoraRegistro, Timestamp fechaHoraSalida, Date fechaEntregaPrevista, Timestamp fechaHoraEntrega) {
         this.domicilio = domicilio;
         this.dni_cliente = dni_cliente;
-        this.nombre_cliente = nombre_cliente;
+        this.nombreCliente = nombreCliente;
         this.estado = estado;
-        this.dni_administrador = dni_administrador;
-        this.dni_conductor = dni_conductor;
-        this.fecha_hora_registro = fecha_hora_registro;
-        this.fecha_hora_salida = fecha_hora_salida;
-        this.fecha_entrega_prevista = fecha_entrega_prevista;
-        this.fecha_hora_entrega = fecha_hora_entrega;
+        this.dniAdministrador = dniAdministrador;
+        this.dniConductor = dniConductor;
+        this.fechaHoraRegistro = fechaHoraRegistro;
+        this.fechaHoraSalida = fechaHoraSalida;
+        this.fechaEntregaPrevista = fechaEntregaPrevista;
+        this.fechaHoraEntrega = fechaHoraEntrega;
     }
 
     public Entrega() {
 
     }
 
-    public int getId_entrega() {
-        return id_entrega;
+    public int getIdEntrega() {
+        return idEntrega;
     }
 
-    public void setId_entrega(int id_entrega) {
-        this.id_entrega = id_entrega;
+    public void setIdEntrega(int idEntrega) {
+        this.idEntrega = idEntrega;
     }
 
-    public Timestamp getFecha_hora_salida() {
-        return fecha_hora_salida;
+    public Timestamp getFechaHoraSalida() {
+        return fechaHoraSalida;
     }
 
-    public void setFecha_hora_salida(Timestamp fecha_hora_salida) {
-        this.fecha_hora_salida = fecha_hora_salida;
+    public void setFechaHoraSalida(Timestamp fechaHoraSalida) {
+        this.fechaHoraSalida = fechaHoraSalida;
     }
 
-    public Timestamp getFecha_hora_registro() {
-        return fecha_hora_registro;
+    public Timestamp getFechaHoraRegistro() {
+        return fechaHoraRegistro;
     }
 
-    public void setFecha_hora_registro(Timestamp fecha_hora_registro) {
-        this.fecha_hora_registro = fecha_hora_registro;
+    public void setFechaHoraRegistro(Timestamp fechaHoraRegistro) {
+        this.fechaHoraRegistro = fechaHoraRegistro;
     }
 
-    public String getDni_conductor() {
-        return dni_conductor;
+    public String getDniConductor() {
+        return dniConductor;
     }
 
-    public void setDni_conductor(String dni_conductor) {
-        this.dni_conductor = dni_conductor;
+    public void setDniConductor(String dniConductor) {
+        this.dniConductor = dniConductor;
     }
 
-    public Timestamp getFecha_hora_entrega() {
-        return fecha_hora_entrega;
+    public Timestamp getFechaHoraEntrega() {
+        return fechaHoraEntrega;
     }
 
-    public void setFecha_hora_entrega(Timestamp fecha_hora_entrega) {
-        this.fecha_hora_entrega = fecha_hora_entrega;
+    public void setFechaHoraEntrega(Timestamp fechaHoraEntrega) {
+        this.fechaHoraEntrega = fechaHoraEntrega;
     }
 
-    public Date getFecha_entrega_prevista() {
-        return fecha_entrega_prevista;
+    public Date getFechaEntregaPrevista() {
+        return fechaEntregaPrevista;
     }
 
-    public void setFecha_entrega_prevista(Date fecha_entrega_prevista) {
-        this.fecha_entrega_prevista = fecha_entrega_prevista;
+    public void setFechaEntregaPrevista(Date fechaEntregaPrevista) {
+        this.fechaEntregaPrevista = fechaEntregaPrevista;
     }
 
-    public String getNombre_cliente() {
-        return nombre_cliente;
+    public String getNombreCliente() {
+        return nombreCliente;
     }
 
-    public void setNombre_cliente(String nombre_cliente) {
-        this.nombre_cliente = nombre_cliente;
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
     }
 
-    public String getDni_administrador() {
-        return dni_administrador;
+    public String getDniAdministrador() {
+        return dniAdministrador;
     }
 
-    public void setDni_administrador(String dni_administrador) {
-        this.dni_administrador = dni_administrador;
+    public void setDniAdministrador(String dniAdministrador) {
+        this.dniAdministrador = dniAdministrador;
     }
 
     public EstadoEntrega getEstado() {
