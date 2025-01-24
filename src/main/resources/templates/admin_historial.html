@@ -44,40 +44,35 @@
                                 <tbody>
                                 <tr class="detalle-entrega"
                                     th:each="entrega : ${entry.value}"
-                                    th:class="${entrega.estado.name() == 'entregado'} ? 'table-success'
-: (${entrega.estado.name() == 'en_camino'} ? 'table-primary'
-: (${entrega.estado.name() == 'preparado'} ? 'table-warning' : ''))">
+                                    th:class="${entrega.estado.name() == 'en_camino' || entrega.estado.name() == 'preparado' || entrega.estado.name() == 'entregado'} ? '' : ''">
                                     <td th:text="${entrega.idEntrega}"></td>
                                     <td th:text="${entrega.domicilio}"></td>
                                     <td>
                                         <div th:text="${entrega.nombreCliente}"></div>
-                                        <small class="text-muted"
-                                               th:text="${entrega.dni_cliente}"></small>
+                                        <small class="text-muted" th:text="${entrega.dni_cliente}"></small>
                                     </td>
                                     <td>
-            <span class="badge text-white"
-                  th:class="${entrega.estado.name() == 'entregado'} ? 'bg-success text-white'
+        <span class="badge text-white"
+              th:class="${entrega.estado.name() == 'entregado'} ? 'bg-success text-white'
 : (${entrega.estado.name() == 'recibido'} ? 'bg-info'
 : (${entrega.estado.name() == 'preparado'} ? 'bg-warning' : 'bg-primary text-white'))"
-                  th:text="${entrega.estado}">
-            </span>
+              th:text="${entrega.estado}">
+        </span>
                                     </td>
                                     <td>
                                         <span th:text="${#temporals.format(entrega.fechaHoraRegistro, 'dd/MM/yy HH:mm')}"></span>
                                     </td>
                                     <td>
-            <span th:if="${entrega.fechaHoraSalida != null}"
-                  th:text="${#temporals.format(entrega.fechaHoraSalida, 'dd/MM/yy HH:mm')}"></span>
-                                        <span th:unless="${entrega.fechaHoraSalida != null}"
-                                              class="text-muted">-</span>
+        <span th:if="${entrega.fechaHoraSalida != null}"
+              th:text="${#temporals.format(entrega.fechaHoraSalida, 'dd/MM/yy HH:mm')}"></span>
+                                        <span th:unless="${entrega.fechaHoraSalida != null}" class="text-muted">-</span>
                                     </td>
                                     <td th:text="${#temporals.format(entrega.fechaEntregaPrevista, 'dd/MM/yy')}"></td>
                                     <td>
-            <span th:if="${entrega.fechaHoraEntrega != null}"
-                  th:text="${#temporals.format(entrega.fechaHoraEntrega, 'dd/MM/yy HH:mm')}"
-                  class="fw-bold"></span>
-                                        <span th:unless="${entrega.fechaHoraEntrega != null}"
-                                              class="text-muted">Pendiente</span>
+        <span th:if="${entrega.fechaHoraEntrega != null}"
+              th:text="${#temporals.format(entrega.fechaHoraEntrega, 'dd/MM/yy HH:mm')}"
+              class="fw-bold"></span>
+                                        <span th:unless="${entrega.fechaHoraEntrega != null}" class="text-muted">Pendiente</span>
                                     </td>
                                 </tr>
                                 </tbody>
