@@ -6,20 +6,19 @@
   <title>Panel de Control - Conductor</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body class="bg-light">
-<div class="container mt-5">
-  <div class="card shadow">
-    <div class="card-body text-center">
-      <h1 class="text-primary">Bienvenido, Conductor</h1>
+<body class="container d-flex justify-content-center align-items-center vh-100">
+<div class="card shadow-lg p-5 text-center">
+      <h1 class="mb-4">Bienvenido, Conductor</h1>
       <p>En este panel puedes gestionar los paquetes asignados a ti, actualizar tu estado y revisar tu historial de entregas.</p>
       <div class="d-flex justify-content-center gap-3 mt-4">
         <a href="/paquetesAsignados" class="btn btn-primary">Paquetes Asignados</a>
-        <a href="#" class="btn btn-secondary">Actualizar Entrega</a>
         <a href="/conductorHistorial" class="btn btn-info">Historial de Entregas</a>
+          <a href="/miDesempeno" class="btn btn-success">Mi Desempeño</a>
+        <form th:action="@{/logout}" method="post">
+          <button type="submit" class="btn btn-danger">Cerrar sesión</button>
+        </form>
       </div>
     </div>
-  </div>
-</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

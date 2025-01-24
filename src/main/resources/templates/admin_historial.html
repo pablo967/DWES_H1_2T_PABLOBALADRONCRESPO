@@ -1,44 +1,95 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Historial de Entregas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-<h1>Historial de Entregas</h1>
-
-<h2>Detalle de Entregas</h2>
-<table border="1">
-    <thead>
-    <tr>
-        <th>ID Entrega</th>
-        <th>Domicilio</th>
-        <th>DNI Cliente</th>
-        <th>Nombre Cliente</th>
-        <th>Estado</th>
-        <th>DNI Administrador</th>
-        <th>DNI Conductor</th>
-        <th>Fecha Hora Registro</th>
-        <th>Fecha Hora Salida</th>
-        <th>Fecha Entrega Prevista</th>
-        <th>Fecha Hora Entrega</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="entrega : ${entregas}">
-        <td th:text="${entrega.idEntrega}"></td>
-        <td th:text="${entrega.domicilio}"></td>
-        <td th:text="${entrega.dni_cliente}"></td>
-        <td th:text="${entrega.nombreCliente}"></td>
-        <td th:text="${entrega.estado}"></td>
-        <td th:text="${entrega.dniAdministrador}"></td>
-        <td th:text="${entrega.dniConductor}"></td>
-        <td th:text="${entrega.fechaHoraRegistro}"></td>
-        <td th:text="${entrega.fechaHoraSalida}"></td>
-        <td th:text="${entrega.fechaEntregaPrevista}"></td>
-        <td th:text="${entrega.fechaHoraEntrega}"></td>
-    </tr>
-    </tbody>
-</table>
+<body class="bg-light">
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h1 class="h4 mb-0">Historial Completo de Entregas por Conductor</h1>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>Conductor</th>
+                        <th>Total Entregas</th>
+                        <th>Detalles Completos</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="entry : ${entregasPorConductor}">
+                        <td class="conductor-header fw-bold"
+                            th:text="${entry.key ?: 'Sin asignar'}"></td>
+                        <td class="conductor-header text-center"
+                            th:text="${entry.value.size()}"></td>
+                        <td>
+                            <table class="table table-sm mb-0 table-hover">
+                                <thead class="table-info">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Domicilio</th>
+                                    <th>Cliente</th>
+                                    <th>Estado</th>
+                                    <th>Registro</th>
+                                    <th>Salida</th>
+                                    <th>Entrega Prevista</th>
+                                    <th>Entrega Real</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="detalle-entrega"
+                                    th:each="entrega : ${entry.value}"
+                                    th:class="${entrega.estado.name() == 'entregado'} ? 'table-success'
+              : (${entrega.estado.name() == 'en_camino'} ? 'table-primary'
+              : (${entrega.estado.name() == 'preparado'} ? 'table-warning' : ''))">
+                                    <td th:text="${entrega.idEntrega}"></td>
+                                    <td th:text="${entrega.domicilio}"></td>
+                                    <td>
+                                        <div th:text="${entrega.nombreCliente}"></div>
+                                        <small class="text-muted"
+                                               th:text="${entrega.dni_cliente}"></small>
+                                    </td>
+                                    <td>
+                                                <span class="badge"
+                                                      th:class="${entrega.estado.name() == 'entregado'} ? 'bg-success'
+                : (${entrega.estado.name() == 'recibido'} ? 'bg-info'
+                : (${entrega.estado.name() == 'preparado'} ? 'bg-warning' : 'bg-primary'))"
+                                                      th:text="${entrega.estado}">
+</span>
+                                    </td>
+                                    <td>
+                                        <span th:text="${#temporals.format(entrega.fechaHoraRegistro, 'dd/MM/yy HH:mm')}"></span>
+                                    </td>
+                                    <td>
+                                                <span th:if="${entrega.fechaHoraSalida != null}"
+                                                      th:text="${#temporals.format(entrega.fechaHoraSalida, 'dd/MM/yy HH:mm')}"></span>
+                                        <span th:unless="${entrega.fechaHoraSalida != null}"
+                                              class="text-muted">-</span>
+                                    </td>
+                                    <td th:text="${#temporals.format(entrega.fechaEntregaPrevista, 'dd/MM/yy')}"></td>
+                                    <td>
+                                                <span th:if="${entrega.fechaHoraEntrega != null}"
+                                                      th:text="${#temporals.format(entrega.fechaHoraEntrega, 'dd/MM/yy HH:mm')}"
+                                                      class="fw-bold"></span>
+                                        <span th:unless="${entrega.fechaHoraEntrega != null}"
+                                              class="text-muted">Pendiente</span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

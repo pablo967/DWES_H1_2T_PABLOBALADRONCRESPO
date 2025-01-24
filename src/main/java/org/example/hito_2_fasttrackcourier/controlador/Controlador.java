@@ -88,19 +88,41 @@ public class Controlador {
         return mv;
     }
 
+    @GetMapping("/miDesempeno")
+    public ModelAndView mostrarDesempenoConductor(Authentication aut) {
+        ModelAndView mv = new ModelAndView("conductor_desempeno");
+        try {
+            String dniConductor = aut.getName();
+
+            Map<String, Object> metricas = entregaService.obtenerMetricasConductor(dniConductor);
+            mv.addObject("metricas", metricas);
+
+        } catch (Exception e) {
+            logger.error("Error al obtener métricas de desempeño", e);
+            mv.setViewName("redirect:/?error=desempeno");
+        }
+        return mv;
+    }
+
     @RequestMapping(value = "/historial", method = RequestMethod.GET)
     public ModelAndView peticionHistorial() {
-        ModelAndView mv = new ModelAndView();
-
+        ModelAndView mv = new ModelAndView("admin_historial");
         try {
-            List<Entrega> entregas = (List<Entrega>) entregaRepositories.findAll();
-            mv.addObject("entregas", entregas);
-            mv.setViewName("admin_historial");
+            List<Entrega> todasEntregas = (List<Entrega>) entregaRepositories.findAll();
+
+            Map<String, List<Entrega>> entregasPorConductor = todasEntregas.stream()
+                    .collect(Collectors.groupingBy(
+                            Entrega::getDniConductor,
+                            LinkedHashMap::new, // Para mantener el orden
+                            Collectors.toList()
+                    ));
+
+            mv.addObject("entregasPorConductor", entregasPorConductor);
+
         } catch (Exception e) {
             logger.error("Error al generar el historial", e);
             mv.setViewName("error");
         }
-
         return mv;
     }
 
@@ -180,6 +202,7 @@ public class Controlador {
             return new ModelAndView("error");
         }
     }
+
 
     @RequestMapping(value = "/paquetesAsignados", method = RequestMethod.GET)
     public ModelAndView verPaquetesAsignados(Authentication aut) {
