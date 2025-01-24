@@ -42,11 +42,11 @@
                   <span class="badge bg-success" th:text="${metricas.entregasRealizadas}"></span>
                 </li>
                 <li class="list-group-item">
-                  Entregas última semana:
+                  Entregas asignadas última semana:
                   <span class="badge bg-primary" th:text="${metricas.entregasUltimaSemana}"></span>
                 </li>
                 <li class="list-group-item">
-                  Entregas último mes:
+                  Entregas asignadas último mes:
                   <span class="badge bg-secondary" th:text="${metricas.entregasUltimoMes}"></span>
                 </li>
               </ul>
@@ -58,7 +58,7 @@
         <div class="col-md-8 mb-4">
           <div class="card h-100">
             <div class="card-header bg-success text-white">
-              <h5>Progreso de Últimas Entregas</h5>
+              <h5>Progreso de los paquetes entregados</h5>
             </div>
             <div class="card-body">
               <canvas id="rendimientoChart"></canvas>
@@ -89,13 +89,13 @@
       return `${days}d ${hours}h ${remainingMinutes}m`;
     };
 
-    if(entregas && entregas.length > 0) {
+    if (entregas && entregas.length > 0) {
       const ctx = document.getElementById('rendimientoChart').getContext('2d');
 
       // Calcular tiempos y formatear
       const datos = entregas.map(e => {
-        const salida = e.fechaHoraSalida ? new Date(/*[[${e.fechaHoraSalida}]]*/).getTime() : 0;
-        const entrega = e.fechaHoraEntrega ? new Date(/*[[${e.fechaHoraEntrega}]]*/).getTime() : 0;
+        const salida = e.fechaHoraSalida ? new Date(e.fechaHoraSalida).getTime() : 0;
+        const entrega = e.fechaHoraEntrega ? new Date(e.fechaHoraEntrega).getTime() : 0;
         return entrega - salida; // Diferencia en milisegundos
       });
 

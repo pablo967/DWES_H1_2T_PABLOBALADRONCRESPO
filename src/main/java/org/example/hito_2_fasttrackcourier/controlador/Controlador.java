@@ -93,10 +93,9 @@ public class Controlador {
         ModelAndView mv = new ModelAndView("conductor_desempeno");
         try {
             String dniConductor = aut.getName();
-
             Map<String, Object> metricas = entregaService.obtenerMetricasConductor(dniConductor);
+            logger.info("Métricas del conductor: {}", metricas);
             mv.addObject("metricas", metricas);
-
         } catch (Exception e) {
             logger.error("Error al obtener métricas de desempeño", e);
             mv.setViewName("redirect:/?error=desempeno");

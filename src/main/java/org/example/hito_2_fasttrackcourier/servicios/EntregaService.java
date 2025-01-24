@@ -70,7 +70,11 @@ public class EntregaService {
         List<Entrega> entregasCompletadas = entregas.stream()
                 .filter(e -> e.getEstado() == Entrega.EstadoEntrega.entregado)
                 .filter(e -> e.getFechaHoraSalida() != null && e.getFechaHoraEntrega() != null)
-                .toList();
+                .sorted(Comparator.comparing(Entrega::getFechaHoraRegistro).reversed())
+                .limit(5)
+                .collect(Collectors.toList());
+
+        metricas.put("ultimasEntregas", entregasCompletadas);
 
         if (!entregasCompletadas.isEmpty()) {
             long tiempoTotal = entregasCompletadas.stream()
