@@ -22,19 +22,19 @@
                             <ul class="list-group">
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     Recibido
-                                    <span class="badge bg-info rounded-pill" th:text="${totalRecibido}"></span>
+                                    <span class="badge bg-info text-white rounded-pill" th:text="${totalRecibido}"></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     Preparado
-                                    <span class="badge bg-warning rounded-pill" th:text="${totalPreparado}"></span>
+                                    <span class="badge bg-warning text-white rounded-pill" th:text="${totalPreparado}"></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     En Camino
-                                    <span class="badge bg-primary rounded-pill" th:text="${totalEnCamino}"></span>
+                                    <span class="badge bg-primary text-white rounded-pill" th:text="${totalEnCamino}"></span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     Entregado
-                                    <span class="badge bg-success rounded-pill" th:text="${totalEntregado}"></span>
+                                    <span class="badge bg-success text-white rounded-pill" th:text="${totalEntregado}"></span>
                                 </li>
                             </ul>
                         </div>
@@ -67,6 +67,9 @@
                     </div>
                 </div>
             </div>
+            <a th:href="@{/}" class="btn btn-primary mt-3">
+                <i class="bi bi-arrow-left"></i> ← Volver al Panel
+            </a>
         </div>
     </div>
 </div>

@@ -34,8 +34,8 @@
             <td th:text="${entrega.domicilio}"></td>
             <td>
     <span class="badge"
-          th:class="${entrega.estado.name() == 'entregado'} ? 'bg-success'
-               : (${entrega.estado.name() == 'recibido'} ? 'bg-info'
+          th:class="${entrega.estado.name() == 'entregado'} ? 'bg-success text-white'
+               : (${entrega.estado.name() == 'recibido'} ? 'bg-info text-white'
                : (${entrega.estado.name() == 'preparado'} ? 'bg-warning' : 'bg-primary'))"
           th:text="${entrega.estado}">
 </span>
@@ -58,7 +58,7 @@
 
       <div class="mt-3">
         <a th:href="@{/}" class="btn btn-primary">
-          < Volver al Panel
+            ← Volver al Panel
         </a>
       </div>
     </div>

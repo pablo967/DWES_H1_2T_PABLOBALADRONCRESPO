@@ -29,7 +29,7 @@
                             th:text="${entry.value.size()}"></td>
                         <td>
                             <table class="table table-sm mb-0 table-hover">
-                                <thead class="table-info">
+                                <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Domicilio</th>
@@ -45,8 +45,8 @@
                                 <tr class="detalle-entrega"
                                     th:each="entrega : ${entry.value}"
                                     th:class="${entrega.estado.name() == 'entregado'} ? 'table-success'
-              : (${entrega.estado.name() == 'en_camino'} ? 'table-primary'
-              : (${entrega.estado.name() == 'preparado'} ? 'table-warning' : ''))">
+: (${entrega.estado.name() == 'en_camino'} ? 'table-primary'
+: (${entrega.estado.name() == 'preparado'} ? 'table-warning' : ''))">
                                     <td th:text="${entrega.idEntrega}"></td>
                                     <td th:text="${entrega.domicilio}"></td>
                                     <td>
@@ -55,27 +55,27 @@
                                                th:text="${entrega.dni_cliente}"></small>
                                     </td>
                                     <td>
-                                                <span class="badge"
-                                                      th:class="${entrega.estado.name() == 'entregado'} ? 'bg-success'
-                : (${entrega.estado.name() == 'recibido'} ? 'bg-info'
-                : (${entrega.estado.name() == 'preparado'} ? 'bg-warning' : 'bg-primary'))"
-                                                      th:text="${entrega.estado}">
-</span>
+            <span class="badge text-white"
+                  th:class="${entrega.estado.name() == 'entregado'} ? 'bg-success text-white'
+: (${entrega.estado.name() == 'recibido'} ? 'bg-info'
+: (${entrega.estado.name() == 'preparado'} ? 'bg-warning' : 'bg-primary text-white'))"
+                  th:text="${entrega.estado}">
+            </span>
                                     </td>
                                     <td>
                                         <span th:text="${#temporals.format(entrega.fechaHoraRegistro, 'dd/MM/yy HH:mm')}"></span>
                                     </td>
                                     <td>
-                                                <span th:if="${entrega.fechaHoraSalida != null}"
-                                                      th:text="${#temporals.format(entrega.fechaHoraSalida, 'dd/MM/yy HH:mm')}"></span>
+            <span th:if="${entrega.fechaHoraSalida != null}"
+                  th:text="${#temporals.format(entrega.fechaHoraSalida, 'dd/MM/yy HH:mm')}"></span>
                                         <span th:unless="${entrega.fechaHoraSalida != null}"
                                               class="text-muted">-</span>
                                     </td>
                                     <td th:text="${#temporals.format(entrega.fechaEntregaPrevista, 'dd/MM/yy')}"></td>
                                     <td>
-                                                <span th:if="${entrega.fechaHoraEntrega != null}"
-                                                      th:text="${#temporals.format(entrega.fechaHoraEntrega, 'dd/MM/yy HH:mm')}"
-                                                      class="fw-bold"></span>
+            <span th:if="${entrega.fechaHoraEntrega != null}"
+                  th:text="${#temporals.format(entrega.fechaHoraEntrega, 'dd/MM/yy HH:mm')}"
+                  class="fw-bold"></span>
                                         <span th:unless="${entrega.fechaHoraEntrega != null}"
                                               class="text-muted">Pendiente</span>
                                     </td>
@@ -86,6 +86,9 @@
                     </tr>
                     </tbody>
                 </table>
+                <a th:href="@{/}" class="btn btn-primary mt-3">
+                    <i class="bi bi-arrow-left"></i> ← Volver al Panel
+                </a>
             </div>
         </div>
     </div>
