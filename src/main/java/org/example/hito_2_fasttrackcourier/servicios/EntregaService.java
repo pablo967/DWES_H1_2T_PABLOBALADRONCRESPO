@@ -4,7 +4,6 @@ import org.example.hito_2_fasttrackcourier.modelo.Entrega;
 import org.example.hito_2_fasttrackcourier.repositories.EntregaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Comparator;
@@ -16,7 +15,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class EntregaService {
-
     private final EntregaRepository entregaRepository;
 
     @Autowired
@@ -24,17 +22,14 @@ public class EntregaService {
         this.entregaRepository = entregaRepository;
     }
 
-    // Total de entregas
     public long countTotalEntregas() {
         return entregaRepository.count();
     }
 
-    // Entregas por estado
     public long countByEstado(Entrega.EstadoEntrega estado) {
         return entregaRepository.countByEstado(estado);
     }
 
-    // Entregas por conductor
     public Map<String, Long> countEntregasPorConductor() {
         List<Object[]> resultados = entregaRepository.countEntregasPorConductor();
         Map<String, Long> conteo = new LinkedHashMap<>();
@@ -105,9 +100,8 @@ public class EntregaService {
         metricas.put("entregasUltimaSemana", entregasUltimaSemana);
         metricas.put("entregasUltimoMes", entregasUltimoMes);
 
-        // Filtrar solo entregas completadas para el gráfico
         metricas.put("ultimasEntregas", entregasCompletadas.stream()
-                .filter(e -> e.getFechaHoraSalida() != null && e.getFechaHoraEntrega() != null) // Asegurar que no sean nulas
+                .filter(e -> e.getFechaHoraSalida() != null && e.getFechaHoraEntrega() != null)
                 .sorted(Comparator.comparing(Entrega::getFechaHoraRegistro).reversed())
                 .limit(5)
                 .collect(Collectors.toList()));

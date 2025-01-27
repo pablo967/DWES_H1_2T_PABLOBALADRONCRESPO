@@ -284,12 +284,10 @@ public class Controlador {
             if (entregaOpt.isPresent()) {
                 Entrega entrega = entregaOpt.get();
 
-                // Verificar autorización
                 if (aut != null && entrega.getDniConductor().equals(aut.getName())) {
-                    // Actualizar estado
+
                     entrega.setEstado(nuevoEstado);
 
-                    // Registrar fecha/hora de entrega si corresponde
                     if (nuevoEstado == Entrega.EstadoEntrega.entregado) {
                         entrega.setFechaHoraEntrega(LocalDateTime.now());
                     }

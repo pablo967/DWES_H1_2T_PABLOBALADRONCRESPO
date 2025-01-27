@@ -12,5 +12,4 @@ public interface EntregaRepository extends CrudRepository<Entrega, Integer> {
     List<Object[]> countEntregasPorConductor();
     List<Entrega> findByDniConductor(String dniConductor);
     List<Entrega> findByDniConductorAndEstadoNot(String dniConductor, Entrega.EstadoEntrega estado);
-    List<Entrega> findByDniConductorAndEstado(String dniConductor, Entrega.EstadoEntrega estado);
 }
